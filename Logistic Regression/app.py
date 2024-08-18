@@ -13,35 +13,36 @@ model = pickle.load(open(model_path,'rb'))
 st.title("----Heart Disease Detector----")
 st.markdown('----------------------------------------------------------------') 
 
-#age,gender,impluse,pressurehight,pressurelow,glucose,kcm,troponin,
+# 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp','Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked'],
 col1, col2, col3 ,col4 = st.columns(4) 
 
 with col1:
-   age = st.number_input('Enter Age',min_value=0,max_value=120)
-   gender = st.selectbox('Select Gender',('Male','Female')) 
+   Pclass = st.selectbox("Selected Class :")
+   Sex = st.selectbox('Select Gender',('Male','Female')) 
 
 with col2:
-   pressurehight = st.number_input('Enter Pressure High')
-   pressurelow = st.number_input('Enter Pressure Low') 
+   Age = st.number_input('Enter Age :')
+   SibSp = st.number_input('Enter SibSp :') 
    
 
 with col3:
-   impluse = st.number_input('Enter Impluse')
-   glucose = st.number_input('Enter Glucose') 
+   Parch = st.number_input('Enter Parch :')
+   Fare = st.number_input('Enter Fare') 
 
 with col4: 
-   kcm = st.number_input('Enter Kcm')
-   troponin = st.number_input('Enter Troponin')   
-if gender == 'Female':
-   gender = 0
-elif gender == 'Male':
-   gender = 1 
+   Cabin = st.text_input('Enter Cabin :')
+   Embarked = st.number_input('Enter Embarked :')   
+
+if Sex == 'Female':
+    Sex= 0
+elif Sex == 'Male':
+   Sex = 1 
 
 if st.button(label='Predict'):
-   data = pd.DataFrame(np.asarray([age,gender,impluse,pressurehight,pressurelow,glucose,kcm,troponin]).reshape(1,-1),
-   columns=['age','gender','impluse','pressurehight','pressurelow','glucose','kcm','troponin'])  
+   data = pd.DataFrame(np.asarray([Pclass,Sex,Age,SibSp,Parch,Fare,Cabin,Embarked]).reshape(1,-1),
+   columns=['Pclass','Sex', 'Age', 'SibSp','Parch', 'Fare', 'Cabin', 'Embarked'])  
    result = model.predict(data)
    if result[0] == 0 :
-      st.success('You do not have heart disease')
+      st.success('Passeger is live')
    elif result[0] == 1 : 
-      st.success('You have heart disease')
+      st.success("Passeger don't live")
